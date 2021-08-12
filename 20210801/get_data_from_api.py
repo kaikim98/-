@@ -7,7 +7,7 @@ URL = 'http://api.openweathermap.org/data/2.5/weather?q={city name}&lang={lang}&
 
 CITIES = ['seoul', 'busan', 'chuncheon']
 LANG = 'kr'
-API_KEY = '91a04cfe728b2b65ee677c7f7360f3eb'
+API_KEY = ''
 
 connection_sqlite3 = sqlite3.connect('weather.db')
 cursor_sqlite3 = connection_sqlite3.cursor()
