@@ -27,7 +27,29 @@ def extract_tar():
 def extract_all():
 # extracted_monster_files에 모든 파일을 압축해제
     with tarfile.open("monster_archive.tar", "r") as tar:
-        tar.extractall("extracted_monster_files")
+        
+        import os
+        
+        def is_within_directory(directory, target):
+            
+            abs_directory = os.path.abspath(directory)
+            abs_target = os.path.abspath(target)
+        
+            prefix = os.path.commonprefix([abs_directory, abs_target])
+            
+            return prefix == abs_directory
+        
+        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+        
+            for member in tar.getmembers():
+                member_path = os.path.join(path, member.name)
+                if not is_within_directory(path, member_path):
+                    raise Exception("Attempted Path Traversal in Tar File")
+        
+            tar.extractall(path, members, numeric_owner=numeric_owner) 
+            
+        
+        safe_extract(tar, "extracted_monster_files")
 
 if __name__ == "__main__":
     # create_tar_archive()
